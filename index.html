@@ -166,6 +166,8 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--paper);color:var(--i
 
 /* ── MAP ── */
 #map{width:100%;height:500px;border-radius:8px;border:1px solid rgba(255,255,255,.1);}
+.map-location-btn{border:0;border-radius:6px;background:#fff;color:var(--navy);padding:.55rem .75rem;font-family:'Noto Sans KR',sans-serif;font-size:12px;font-weight:700;box-shadow:0 1px 5px rgba(0,0,0,.35);cursor:pointer;white-space:nowrap;}
+.map-location-btn:hover{background:#eef4ff;}
 .map-legend{display:flex;flex-wrap:wrap;gap:1rem;margin-top:1rem;}
 .leg-item{display:flex;align-items:center;gap:6px;font-size:12px;color:rgba(255,255,255,.7);}
 .leg-dot{width:11px;height:11px;border-radius:50%;}
@@ -1047,6 +1049,41 @@ function initMap() {
 
   var map = L.map('map', {zoomControl:true, scrollWheelZoom:false}).setView([36.3, 137.5], 7);
 
+  var currentLocationMarker = null;
+  var currentLocationCircle = null;
+  var locationControl = L.control({position:'topright'});
+  locationControl.onAdd = function() {
+    var button = L.DomUtil.create('button', 'map-location-btn');
+    button.type = 'button';
+    button.title = '현재 위치 보기';
+    button.setAttribute('aria-label', '현재 위치 보기');
+    button.textContent = '◎ 내 위치';
+    L.DomEvent.disableClickPropagation(button);
+    L.DomEvent.on(button, 'click', function() {
+      button.textContent = '위치 확인 중…';
+      map.locate({setView:true, maxZoom:15, enableHighAccuracy:true, timeout:12000});
+    });
+    return button;
+  };
+  locationControl.addTo(map);
+
+  map.on('locationfound', function(e) {
+    if (currentLocationMarker) map.removeLayer(currentLocationMarker);
+    if (currentLocationCircle) map.removeLayer(currentLocationCircle);
+    currentLocationMarker = L.circleMarker(e.latlng, {radius:8, color:'#fff', weight:3, fillColor:'#1a73e8', fillOpacity:1})
+      .addTo(map).bindPopup('<strong>현재 위치</strong><br>GPS 정확도 약 '+Math.round(e.accuracy)+'m');
+    currentLocationCircle = L.circle(e.latlng, {radius:e.accuracy, color:'#1a73e8', weight:1, fillColor:'#1a73e8', fillOpacity:.12}).addTo(map);
+    currentLocationMarker.openPopup();
+    var button = document.querySelector('.map-location-btn');
+    if (button) button.textContent = '◎ 내 위치';
+  });
+
+  map.on('locationerror', function(e) {
+    var button = document.querySelector('.map-location-btn');
+    if (button) button.textContent = '◎ 내 위치';
+    L.popup().setLatLng(map.getCenter()).setContent('현재 위치를 표시하려면 브라우저에서 위치 권한을 허용하세요.').openOn(map);
+  });
+
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
     attribution: '© OpenStreetMap © CARTO',
     subdomains: 'abcd',
@@ -1122,6 +1159,7 @@ function initMap() {
   });
 
   map.fitBounds([[34.5,136.0],[37.0,138.5]], {padding:[20,20]});
+  map.locate({setView:false, enableHighAccuracy:true, timeout:12000});
 }
 </script>
 </body>
