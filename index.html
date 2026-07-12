@@ -985,6 +985,13 @@ var phrases = [
   {cat:'nature',kr:'무로도는 오늘 추운가요?',jp:'室堂は今日は寒いですか？',read:'무로도와 쿄와 사무이데스카?',note:'알펜루트 당일 체감 문의'},
 ];
 
+function annotateKatakana(text) {
+  return text.replace(/[ァ-ヶー]+/g, function(katakana) {
+    var reading = window.wanakana ? wanakana.toHiragana(katakana) : katakana;
+    return katakana + '(' + reading + ')';
+  });
+}
+
 function renderJpn(filter) {
   var grid = document.getElementById('jpn-grid');
   var catNames = {basic:'기본 인사',transport:'교통',food:'식당·음식',shop:'쇼핑',hotel:'숙소',trouble:'긴급·곤란',nature:'자연·관광'};
@@ -993,7 +1000,7 @@ function renderJpn(filter) {
     return '<div class="jcard" data-cat="'+p.cat+'">'
       +'<div class="jcard-cat">'+catNames[p.cat]+'</div>'
       +'<div class="jcard-kr">'+p.kr+'</div>'
-      +'<div class="jcard-jp">'+p.jp+'</div>'
+      +'<div class="jcard-jp">'+annotateKatakana(p.jp)+'</div>'
       +'<div class="jcard-read">📢 '+p.read+'</div>'
       +(p.note?'<div class="jcard-note">'+p.note+'</div>':'')
       +'</div>';
