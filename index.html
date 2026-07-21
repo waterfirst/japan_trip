@@ -10,13 +10,25 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body>
+<body id="top">
+  <nav class="top-tabs" aria-label="메인 탭">
+    <div class="wrap top-tabs-inner">
+      <a class="top-tab active" href="#top">가이드 홈</a>
+      <a class="top-tab" href="#route-overview">여행 흐름</a>
+      <a class="top-tab" href="#detail-plan">일정 상세</a>
+      <a class="top-tab" href="#final-checklist">체크리스트</a>
+      <a class="top-tab essay" href="https://waterfirst.github.io/japan_trip/">여행 에세이</a>
+    </div>
+  </nav>
   <header class="hero">
     <div class="wrap">
       <p class="eyebrow">2026.07.22 ~ 2026.07.25</p>
       <h1>일본 알프스 여행 가이드</h1>
       <p class="lead">
         인천 → 나고야 → 마쓰모토 → 가미코치 → 알펜루트 → 도야마 → 가나자와 → 고마쓰
+      </p>
+      <p class="hero-note">
+        메인페이지는 다시 가이드 중심으로 복구했고, 여행 중 올라오는 사진 기록은 <strong>여행 에세이</strong> 탭에서 이어집니다.
       </p>
       <div class="hero-cards">
         <div class="hero-card">
@@ -36,7 +48,7 @@
   </header>
 
   <main class="wrap">
-    <section class="card">
+    <section class="card" id="route-overview">
       <h2>한눈에 보는 여행 흐름</h2>
       <div class="route">
         <span>인천</span>
@@ -73,7 +85,7 @@
       </article>
     </section>
 
-    <section class="card">
+    <section class="card" id="detail-plan">
       <h2>일정 상세</h2>
       <div class="timeline">
         <article>
@@ -138,7 +150,7 @@
       </article>
     </section>
 
-    <section class="card">
+    <section class="card" id="final-checklist">
       <h2>출발 전 마지막 체크리스트</h2>
       <div class="grid two">
         <ul class="check">
