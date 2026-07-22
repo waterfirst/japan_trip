@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>일본 알프스 — 전체 일정 시뮬레이션</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box;font-family:'Noto Sans KR',system-ui,sans-serif}
+  :root{--bg:#f6f9ff;--card:#ffffff;--line:#dbe6ff;--text:#17324d;--muted:#58718b;--brand:#3d74ff;--accent:#eef6ff;
+    --warm:#f59e0b;--cool:#0ea5e9;--alt:#7c3aed;--ok:#0d9488;--danger:#e11d48}
+  body{background:radial-gradient(circle at top left,#ffffff 0,#eef6ff 35%,#f6f9ff 100%);color:var(--text);line-height:1.5}
+  .wrap{max-width:760px;margin:0 auto;padding:20px 16px 60px}
+  .hero{background:linear-gradient(135deg,#3d74ff,#7c3aed);border-radius:22px;color:#fff;padding:28px 24px;box-shadow:0 16px 36px rgba(61,116,255,.28)}
+  .hero .t{font-size:13px;font-weight:700;opacity:.9;letter-spacing:1px}
+  .hero h1{font-size:27px;font-weight:900;margin:8px 0;letter-spacing:-.5px;line-height:1.2}
+  .hero .r{font-size:13.5px;opacity:.92;font-weight:500}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+  .chip{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:5px 12px;font-size:12.5px;font-weight:700}
+  .climate{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin:16px 0;box-shadow:0 10px 24px rgba(61,116,255,.08)}
+  .climate h3{font-size:14px;color:var(--brand);margin-bottom:10px;font-weight:800}
+  .crow{display:flex;justify-content:space-between;font-size:13px;padding:6px 0;border-bottom:1px solid #eef3fb}
+  .crow b{font-weight:700}
+  .temp{font-weight:800}
+  .warn-inline{color:var(--danger);font-size:12.5px;font-weight:700;margin-top:8px}
+  .day{background:var(--card);border:1px solid var(--line);border-radius:18px;margin:16px 0;box-shadow:0 10px 24px rgba(61,116,255,.08);overflow:hidden}
+  .dhead{background:linear-gradient(135deg,#eef6ff,#dbe6ff);padding:15px 18px;display:flex;align-items:center;gap:12px}
+  .dnum{width:40px;height:40px;border-radius:12px;background:var(--brand);color:#fff;font-weight:900;font-size:15px;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1}
+  .dnum small{font-size:9px;font-weight:600;opacity:.85}
+  .dhead .ti{font-size:16px;font-weight:900}
+  .dhead .da{font-size:12px;color:var(--muted);font-weight:600}
+  .dbody{padding:16px 18px}
+  .wx{display:inline-flex;gap:6px;align-items:center;background:var(--accent);border-radius:8px;padding:5px 10px;font-size:12.5px;font-weight:700;color:#1e40af;margin-bottom:12px}
+  .tl{position:relative;padding-left:18px;margin:4px 0}
+  .tl:before{content:"";position:absolute;left:5px;top:4px;bottom:4px;width:2px;background:#dbe6ff}
+  .ev{position:relative;padding:7px 0 7px 4px}
+  .ev:before{content:"";position:absolute;left:-16px;top:12px;width:9px;height:9px;border-radius:50%;background:var(--brand);border:2px solid #fff;box-shadow:0 0 0 2px #dbe6ff}
+  .ev .tm{font-weight:800;font-size:13px;color:var(--brand)}
+  .ev .tx{font-size:13.5px;margin-top:1px}
+  .ev .co{font-size:11.5px;color:var(--muted);font-weight:600}
+  .meal{background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:10px 12px;font-size:13px;margin-top:12px;color:#9a3412}
+  .meal b{color:#7c2d12}
+  .stay{font-size:12.5px;color:var(--muted);font-weight:600;margin-top:8px}
+  .hl{background:linear-gradient(135deg,#faf5ff,#f3e8ff);border-color:#e9d5ff}
+  .hl .dnum{background:var(--alt)} .hl .ev:before{background:var(--alt)} .hl .ev .tm{color:var(--alt)}
+  .box{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin:16px 0;box-shadow:0 10px 24px rgba(61,116,255,.08)}
+  .box h3{font-size:16px;font-weight:900;margin-bottom:12px}
+  .brow{display:flex;justify-content:space-between;font-size:13.5px;padding:7px 0;border-bottom:1px solid #eef3fb}
+  .brow.tot{border-bottom:none;font-weight:900;color:var(--brand);font-size:15px;padding-top:12px}
+  .risk{font-size:13px;padding:8px 0 8px 24px;position:relative;border-bottom:1px solid #eef3fb}
+  .risk:before{content:"⚠️";position:absolute;left:0;top:7px;font-size:13px}
+  .risk b{color:var(--danger)}
+  .foot{text-align:center;color:var(--muted);font-size:12px;margin-top:20px;line-height:1.7}
+  a{color:var(--brand)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <div class="t">FULL ITINERARY SIMULATION</div>
+    <h1>🏔️ 일본 알프스 3박4일<br>전체 일정 시뮬레이션</h1>
+    <div class="r">인천 → 나고야 → 마츠모토 → 가미코치 → 알펜루트 → 도야마 → 고마츠 → 인천</div>
+    <div class="chips">
+      <span class="chip">📅 2026.07.22~25</span>
+      <span class="chip">👤 2명</span>
+      <span class="chip">✈️ KE741 / KE2190</span>
+      <span class="chip">💰 ₩100만/인</span>
+    </div>
+  </div>
+
+  <div class="climate">
+    <h3>🌡️ 고도별 기후 (7월 하순) — 20도 온도차가 관건</h3>
+    <div class="crow"><b>나고야·도야마·고마츠 (저지대)</b><span class="temp" style="color:var(--warm)">30~33°C 무더움·습함</span></div>
+    <div class="crow"><b>마츠모토</b><span class="temp" style="color:var(--warm)">낮 25~31°C</span></div>
+    <div class="crow"><b>가미코치 (1,500m)</b><span class="temp" style="color:var(--cool)">낮 20~26 / 아침 12~16°C</span></div>
+    <div class="crow"><b>무로도·알펜루트 (2,450m)</b><span class="temp" style="color:var(--alt)">10~15°C (얇은 패딩 필수)</span></div>
+    <div class="warn-inline">⚠️ 7월 산악 오후 천둥번개(夕立) 잦음 → 가미코치·무로도 산책은 반드시 오전</div>
+  </div>
+
+  <!-- Day 1 -->
+  <div class="day">
+    <div class="dhead"><div class="dnum">D1<small>7/22 화</small></div><div><div class="ti">인천 → 나고야 → 마츠모토</div><div class="da">이동일 · 마츠모토성</div></div></div>
+    <div class="dbody">
+      <div class="wx">🌤️ 나고야 32°C 습함 · 저녁 마츠모토 22°C · 소나기 대비</div>
+      <div class="tl">
+        <div class="ev"><div class="tm">09:00</div><div class="tx">✈️ KE741 인천ICN → 나고야 주부(NGO) ~10:45</div></div>
+        <div class="ev"><div class="tm">11:30</div><div class="tx">주부공항 → 나고야: 名鉄 μ-SKY 28분</div><div class="co">¥1,250</div></div>
+        <div class="ev"><div class="tm">14:00</div><div class="tx">나고야 → 마츠모토: JR 특급 <b>와이드뷰 시나노</b> 2시간</div><div class="co">¥6,000</div></div>
+        <div class="ev"><div class="tm">16:30</div><div class="tx">🏯 <b>마츠모토성</b>(국보) + 나와테거리·나카마치</div><div class="co">¥700</div></div>
+      </div>
+      <div class="meal">🍽️ 점심 나고야 <b>미소카츠(矢場とん)</b>·키시멘 / 저녁 마츠모토 <b>신슈소바 + 산조쿠야키</b></div>
+      <div class="stay">🏨 마츠모토역 인근 (2인실 ¥14,000~)</div>
+    </div>
+  </div>
+
+  <!-- Day 2 -->
+  <div class="day">
+    <div class="dhead"><div class="dnum">D2<small>7/23 수</small></div><div><div class="ti">가미코치 트레킹</div><div class="da">평지 산책 3~4시간</div></div></div>
+    <div class="dbody">
+      <div class="wx">⛅ 가미코치 낮 24 / 아침 14°C 선선 · 오후 소나기 → 오전 집중</div>
+      <div class="tl">
+        <div class="ev"><div class="tm">07:00</div><div class="tx">🚌 마츠모토BT → 가미코치 직행버스 1시간30분 <span class="co">(자가용 진입금지)</span></div><div class="co">¥2,710</div></div>
+        <div class="ev"><div class="tm">08:40</div><div class="tx">다이쇼이케(大正池) → 갓파바시(河童橋) 절경 → 묘진이케(明神池)</div></div>
+        <div class="ev"><div class="tm">12:30</div><div class="tx">☕ 五千尺 카페 / 가미코치식당 점심</div></div>
+        <div class="ev"><div class="tm">14:30</div><div class="tx">가미코치 → 마츠모토 복귀 (오후 뇌우 전 하산)</div></div>
+      </div>
+      <div class="meal">🍽️ 점심 가미코치(소바) / 저녁 마츠모토 <b>우나기·말고기(馬刺し)</b></div>
+      <div class="stay">🏨 마츠모토 유지 (알펜루트 접근)</div>
+    </div>
+  </div>
+
+  <!-- Day 3 -->
+  <div class="day hl">
+    <div class="dhead"><div class="dnum">D3<small>7/24 목</small></div><div><div class="ti">⭐ 알펜루트 완전 관통 → 도야마</div><div class="da">하이라이트 · 종단 6~9시간</div></div></div>
+    <div class="dbody">
+      <div class="wx">🏔️ 무로도 12°C·강풍 가능 · 바람막이/얇은패딩 필수 · 오전 출발</div>
+      <div class="tl">
+        <div class="ev"><div class="tm">06:30</div><div class="tx">마츠모토 → JR 오이토선 → 시나노오마치 1시간</div><div class="co">¥680</div></div>
+        <div class="ev"><div class="tm">08:00</div><div class="tx">🚌 시나노오마치 → 버스 → 오기자와 40분</div><div class="co">¥2,000</div></div>
+        <div class="ev"><div class="tm">08:40</div><div class="tx">▼ <b>알펜루트 종단</b>: 전기버스→구로베댐→케이블카→구로베다이라→로프웨이→다이칸보→터널트롤리→<b>★무로도(2,450m)</b> 미쿠리가이케·고산화 산책→고원버스→비조다이라→케이블카→다테야마역</div><div class="co">오기자와발 ~¥10,000</div></div>
+        <div class="ev"><div class="tm">16:30</div><div class="tx">다테야마역 → 도야마지방철도 → 도야마 1시간</div><div class="co">¥1,230</div></div>
+      </div>
+      <div class="meal">🍽️ 이동 중 에키벤 / 저녁 도야마 <b>도야마블랙라멘 + 흰새우(白えび) 초밥</b> (도야마 초밥 전국급)</div>
+      <div class="stay">🏨 도야마역 인근 (2인실 ¥13,000~)</div>
+    </div>
+  </div>
+
+  <!-- Day 4 -->
+  <div class="day">
+    <div class="dhead"><div class="dnum">D4<small>7/25 금</small></div><div><div class="ti">도야마 → 고마츠 → 인천</div><div class="da">귀국일</div></div></div>
+    <div class="dbody">
+      <div class="wx">☀️ 도야마 31°C 맑음</div>
+      <div class="tl">
+        <div class="ev"><div class="tm">09:00</div><div class="tx">☕ 후간운하 환수공원(세계서 예쁜 스타벅스) / 도야마성</div></div>
+        <div class="ev"><div class="tm">11:00</div><div class="tx">도야마 → 가나자와: 호쿠리쿠 신칸센 23분</div><div class="co">¥3,000</div></div>
+        <div class="ev"><div class="tm">11:40</div><div class="tx">🦐 (환승 여유) 가나자와 오미초시장 카이센동 점심</div><div class="co">¥2,500</div></div>
+        <div class="ev"><div class="tm">13:30</div><div class="tx">가나자와/도야마 → 고마츠공항 특급+연결 ~40분</div><div class="co">¥1,500</div></div>
+        <div class="ev"><div class="tm">17:xx</div><div class="tx">✈️ KE2190 고마츠(KMQ) → 인천</div></div>
+      </div>
+      <div class="meal">🍽️ 점심 가나자와 <b>카이센동</b> (오미초시장)</div>
+    </div>
+  </div>
+
+  <!-- budget -->
+  <div class="box">
+    <h3>💰 예산 점검 (지상비 · 항공 별도 · 1인)</h3>
+    <div class="brow"><span>교통 (특급·알펜루트·버스)</span><b>~¥26,000</b></div>
+    <div class="brow"><span>숙박 3박 (2인실 반값)</span><b>~¥21,000</b></div>
+    <div class="brow"><span>식사·입장·간식</span><b>~¥18,000</b></div>
+    <div class="brow tot"><span>합계 ≈ ¥65,000 (약 60만원)</span><b>예산 여유 ✓</b></div>
+    <div class="stay">알펜루트가 최대 지출. 예산 ₩100만/인 대비 충분히 여유.</div>
+  </div>
+
+  <!-- risks -->
+  <div class="box">
+    <h3>⚠️ 리스크 & 대비</h3>
+    <div class="risk"><b>알펜루트 운휴</b> — 강풍·뇌우 시 로프웨이 정지. <b>전날 밤 alpen-route.com 운행상태 필수 확인.</b> 최악 시 JR 특급으로 도야마 우회.</div>
+    <div class="risk"><b>오후 뇌우</b> — 가미코치·무로도 산책은 무조건 오전.</div>
+    <div class="risk"><b>고도 체온차 20°C</b> — 저지대 32°C ↔ 무로도 12°C. 바람막이+얇은패딩 1개 필수.</div>
+    <div class="risk"><b>알펜루트 티켓</b> — 성수기, 오기자와 출발시간 지정 예약 권장.</div>
+    <div class="risk"><b>항공 시각</b> — KE741/KE2190 실제 시각은 e-티켓으로 확정 (위는 통상치).</div>
+  </div>
+
+  <div class="foot">
+    🏔️ 일본 알프스 여행 시뮬레이션 · 기상 출처: Snow Monkey Resorts, japan-guide, alpen-route<br>
+    <a href="index.html">← 여행 가이드북 홈으로</a>
+  </div>
+
+</div>
+</body>
+</html>

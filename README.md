@@ -1,14 +1,16 @@
-# Japan Alps Trip Guide 2026
+# japan_trip
 
-Bright, mobile-friendly GitHub Pages guide for:
+2026 일본 알프스 여행 가이드와 날짜별 여행 에세이를 함께 운영하는 정적 GitHub Pages 저장소입니다.
 
-- Nagoya
-- Matsumoto
-- Kamikochi
-- Tateyama Kurobe Alpine Route
-- Kanazawa
-- Komatsu
+## Pages
 
-## Deploy
+- 가이드 홈: `index.html`
+- 여행 에세이: `essay.html`
+- 사진 자산: `assets/trip/`
 
-This repository is designed to be served directly with GitHub Pages from the root branch.
+## 운영 방식
+
+- 메인 페이지는 일정/동선 중심의 가이드
+- 에세이 페이지는 날짜별 사진과 짧은 소감 기록
+- 여행 중 사진이 들어오면 날짜 폴더에 추가하고 에세이를 갱신
+
