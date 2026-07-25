@@ -131,6 +131,10 @@ h1 {
   box-shadow: var(--shadow);
 }
 
+.inner-card {
+  margin-bottom: 0;
+}
+
 .hero-card {
   padding: 18px 20px;
 }
@@ -232,6 +236,38 @@ ul.check li::before {
   padding: 10px 0 40px;
   color: var(--muted);
   text-align: center;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+.info-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 760px;
+  background: rgba(255,255,255,0.94);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+.info-table th,
+.info-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+
+.info-table th {
+  background: #eef6ff;
+  color: var(--brand);
+  font-size: 0.95rem;
+}
+
+.info-table tr:last-child td {
+  border-bottom: 0;
 }
 
 @media (max-width: 820px) {
