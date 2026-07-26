@@ -782,6 +782,11 @@ footer strong{color:rgba(255,255,255,.8);}
   <div class="sec wrap">
     <div class="slabel">Travel Journal</div>
     <div class="stitle">여행보다 이동이 먼저였던 순간들</div>
+    <figure class="essay-hero-fig">
+      <img class="essay-hero-img" src="assets/trip/essay-hero.jpg" alt="구로베 호수를 배경으로 다리 위에 선 여행자" loading="lazy" />
+      <figcaption class="ecap">구로베 호수 위 다리에서. 에메랄드빛 물과 북알프스의 능선을 등지고 선 이 한 장이, 이번 여행 전체를 요약하는 첫 장면이 되었다.</figcaption>
+    </figure>
+
     <div class="essay-lead-card">
       공항의 방향표지, 갈아타기 직전의 긴장, 특급열차에 겨우 올라탄 안도감, 그리고 AI 통역으로 낯선 길을
       이해한 순간들. 일정표에는 담기지 않는 여행의 감정을 날짜별로 정리했습니다.
@@ -991,6 +996,12 @@ footer strong{color:rgba(255,255,255,.8);}
 }
 
 /* ── ESSAY ── */
+.essay-hero-fig{margin:0 0 1.5rem;}
+.essay-hero-img{
+  width:100%;max-height:460px;object-fit:cover;display:block;
+  border-radius:12px;border:1px solid var(--paper-deep);background:var(--paper-warm);
+}
+.essay-hero-fig .ecap{margin-top:.6rem;}
 .essay-lead-card{
   background:var(--paper);border:1px solid var(--paper-deep);border-radius:8px;
   border-left:3px solid var(--red);padding:1.1rem 1.3rem;margin-bottom:1.5rem;
