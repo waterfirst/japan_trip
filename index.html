@@ -118,6 +118,15 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--paper);color:var(--i
 .bcard-label{font-size:10px;letter-spacing:.12em;color:rgba(255,255,255,.4);text-transform:uppercase;margin-bottom:4px;}
 .bcard-val{font-size:1.5rem;font-weight:700;color:#e8a882;}
 .bcard-sub{font-size:11px;color:rgba(255,255,255,.4);margin-top:2px;}
+.budget-total{
+  background:var(--navy);border-radius:8px;padding:1.1rem 1.4rem;margin-bottom:1.5rem;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.6rem;
+  border:1px solid rgba(232,168,130,.35);
+}
+.bt-label{font-size:12px;letter-spacing:.08em;color:rgba(255,255,255,.7);font-weight:700;}
+.bt-sub{font-size:11px;color:rgba(255,255,255,.4);margin-top:3px;}
+.bt-val{font-size:1.9rem;font-weight:700;color:#e8a882;line-height:1;}
+.bt-val span{font-size:.85rem;font-weight:500;color:rgba(255,255,255,.55);}
 
 /* ── TABLE ── */
 .gtable{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:1rem;}
@@ -231,9 +240,16 @@ footer strong{color:rgba(255,255,255,.8);}
     <div class="slabel">Overview</div>
     <div class="stitle">전체 일정</div>
     <div class="budget-grid">
-      <div class="bcard"><div class="bcard-label">숙박비 (3박·1인)</div><div class="bcard-val">₩240,000</div><div class="bcard-sub">마쓰모토·오마치·가나자와</div></div>
-      <div class="bcard"><div class="bcard-label">교통비 (1인)</div><div class="bcard-val">₩260,000</div><div class="bcard-sub">항공 제외 · 알펜루트 포함</div></div>
-      <div class="bcard"><div class="bcard-label">식비 (1인·추가)</div><div class="bcard-val" style="color:#86efac;">별도</div><div class="bcard-sub">예상 5,000~8,000엔/일</div></div>
+      <div class="bcard"><div class="bcard-label">숙박 (3박·1인)</div><div class="bcard-val">₩229,718</div><div class="bcard-sub">마쓰모토·오마치·가나자와</div></div>
+      <div class="bcard"><div class="bcard-label">교통 (1인·항공 제외)</div><div class="bcard-val">₩234,055</div><div class="bcard-sub">알펜루트·가미코치 버스·철도</div></div>
+      <div class="bcard"><div class="bcard-label">현지 식비·기타 (1인)</div><div class="bcard-val">₩310,919</div><div class="bcard-sub">66,153엔 · 환율 9.4원</div></div>
+    </div>
+    <div class="budget-total">
+      <div>
+        <div class="bt-label">총 경비 (항공 제외 · 1인)</div>
+        <div class="bt-sub">숙박 + 교통 + 현지 식비·기타 합산</div>
+      </div>
+      <div class="bt-val">약 77만원 <span>(774,692원)</span></div>
     </div>
     <table class="gtable">
       <thead><tr><th>날짜</th><th>이동</th><th>하이라이트</th><th>숙박</th></tr></thead>
