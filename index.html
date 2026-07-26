@@ -52,11 +52,12 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--paper);color:var(--i
   position:relative;overflow:hidden;padding:3rem 2rem;text-align:center;
 }
 .cover::before{
-  content:'';position:absolute;inset:0;
+  content:'';position:absolute;inset:0;pointer-events:none;
   background-image:
     repeating-linear-gradient(45deg,rgba(255,255,255,.03) 0,rgba(255,255,255,.03) 1px,transparent 1px,transparent 40px),
     repeating-linear-gradient(-45deg,rgba(255,255,255,.03) 0,rgba(255,255,255,.03) 1px,transparent 1px,transparent 40px);
 }
+.cover-eyebrow,.cover-title,.cover-sub,.cover-route,.cover-meta,.cover-cta{position:relative;z-index:1;}
 .cover-eyebrow{font-size:11px;letter-spacing:.25em;color:rgba(255,255,255,.45);margin-bottom:1.5rem;}
 .cover-title{font-family:'Noto Serif KR',serif;font-size:clamp(2.8rem,7vw,5rem);font-weight:700;color:#fff;line-height:1.1;margin-bottom:.5rem;}
 .cover-title span{color:#e8a882;}
@@ -239,6 +240,19 @@ footer strong{color:rgba(255,255,255,.8);}
   <div class="sec wrap">
     <div class="slabel">Overview</div>
     <div class="stitle">전체 일정</div>
+    <table class="gtable">
+      <thead><tr><th>날짜</th><th>이동</th><th>하이라이트</th><th>숙박</th></tr></thead>
+      <tbody>
+        <tr><td><strong>7/22 수</strong></td><td>NGO → 나고야 → 마쓰모토</td><td>나고야성, 히츠마부시, 특급 시나노 이동</td><td>마쓰모토</td></tr>
+        <tr><td><strong>7/23 목</strong></td><td>마쓰모토 → 가미코치 → 시나노오마치</td><td>다이쇼이케, 갓파바시, 묘진 연못</td><td>시나노오마치</td></tr>
+        <tr><td><strong>7/24 금</strong></td><td>오기자와 → 알펜루트 관통 → 도야마 → 가나자와</td><td>구로베댐, 무로도, 다테야마, 도야마 도착</td><td>가나자와</td></tr>
+        <tr><td><strong>7/25 토</strong></td><td>가나자와 → 고마쓰 KMQ</td><td>아침 일찍 공항 이동 → KMQ 10:15 귀국</td><td>귀국</td></tr>
+      </tbody>
+    </table>
+    <div class="warn">⚠️ <strong>성수기 주의:</strong> 7월 말 일본 여름 성수기. 가미코치 버스·알펜루트 구간권·호텔 모두 최소 2개월 전 예약 필수.</div>
+
+    <div class="slabel" style="margin-top:2.5rem;">Budget</div>
+    <div class="stitle" style="font-size:1.5rem;margin-bottom:1rem;">경비 요약</div>
     <div class="budget-grid">
       <div class="bcard"><div class="bcard-label">숙박 (3박·1인)</div><div class="bcard-val">₩229,718</div><div class="bcard-sub">마쓰모토·오마치·가나자와</div></div>
       <div class="bcard"><div class="bcard-label">교통 (1인·항공 제외)</div><div class="bcard-val">₩234,055</div><div class="bcard-sub">알펜루트·가미코치 버스·철도</div></div>
@@ -251,16 +265,6 @@ footer strong{color:rgba(255,255,255,.8);}
       </div>
       <div class="bt-val">약 77만원 <span>(774,692원)</span></div>
     </div>
-    <table class="gtable">
-      <thead><tr><th>날짜</th><th>이동</th><th>하이라이트</th><th>숙박</th></tr></thead>
-      <tbody>
-        <tr><td><strong>7/22 수</strong></td><td>NGO → 나고야 → 마쓰모토</td><td>나고야성, 히츠마부시, 특급 시나노 이동</td><td>마쓰모토</td></tr>
-        <tr><td><strong>7/23 목</strong></td><td>마쓰모토 → 가미코치 → 시나노오마치</td><td>다이쇼이케, 갓파바시, 묘진 연못</td><td>시나노오마치</td></tr>
-        <tr><td><strong>7/24 금</strong></td><td>오기자와 → 알펜루트 관통 → 도야마 → 가나자와</td><td>구로베댐, 무로도, 다테야마, 도야마 도착</td><td>가나자와</td></tr>
-        <tr><td><strong>7/25 토</strong></td><td>가나자와 → 고마쓰 KMQ</td><td>아침 일찍 공항 이동 → KMQ 10:15 귀국</td><td>귀국</td></tr>
-      </tbody>
-    </table>
-    <div class="warn">⚠️ <strong>성수기 주의:</strong> 7월 말 일본 여름 성수기. 가미코치 버스·알펜루트 구간권·호텔 모두 최소 2개월 전 예약 필수.</div>
   </div>
 </div>
 
@@ -1137,7 +1141,10 @@ function showPage(id) {
   var btns = document.querySelectorAll('.tab-btn');
   if (btns[m[id]]) btns[m[id]].classList.add('active');
   window.scrollTo(0,0);
-  if (id === 'map' && !window._mapInit) initMap();
+  if (id === 'map') {
+    if (!window._mapInit) initMap();
+    if (window._map) setTimeout(function(){ window._map.invalidateSize(); }, 60);
+  }
   if (id === 'jpn' && !window._jpnInit) { window._jpnInit = true; renderJpn('all'); }
 }
 </script>
@@ -1150,6 +1157,7 @@ function initMap() {
   window._mapInit = true;
 
   var map = L.map('map', {zoomControl:true, scrollWheelZoom:false}).setView([36.3, 137.5], 7);
+  window._map = map;
 
   // 한글 타일 — CartoDB Light with Korean labels via OSM
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
